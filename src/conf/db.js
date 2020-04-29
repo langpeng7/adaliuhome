@@ -16,17 +16,17 @@ if (env === 'production') {
     }
 }
 
-/*if (env === 'dev') {
+if (env === 'dev') {
     // mysql
     MYSQL_CONF = {
-        host: '127.0.0.1',
+        host: 'localhost',
 	    user: 'root',
 	    post:'3306',
 	    password: '123456',
 	    database: 'user'
     }
 
-}*/
+}
 
 module.exports = {
     MYSQL_CONF

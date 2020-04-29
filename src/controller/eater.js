@@ -1,7 +1,8 @@
 const { exec } = require('../db/mysql')
 
 const getList = () => {
-    let sql = `SELECT count FROM z_eater_person where id=1;`
+    //let sql = `SELECT count FROM z_eater_person where id=1;`
+    let sql = `SELECT email FROM users where id=1;`
     return exec(sql)
 }
 

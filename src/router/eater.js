@@ -11,33 +11,29 @@ const handleeaterRouter = (req, res) => {
     const method = req.method // GET POST
 
     // 获取吃饭数量列表
-    if (method === 'GET' && req.path === '/electron/eat/list') {
+    if (method === 'GET' && req.path === '/api/list') {
         const result = getList()
         return result.then(listData => {
-            console.log(listData)
             return new SuccessModel(listData)
         })
     }
-     // 获取吃饭数量列表
-     if (method === 'POST' && req.path === '/electron/eat/add') {
-        console.log(req)
-        console.log("------------------------------------------------------------------------")
-        const result = addConsumer(req.body)
-        return result.then(val => {
+    //  // 获取吃饭数量列表
+    //  if (method === 'POST' && req.path === '/electron/eat/add') {
+    //     const result = addConsumer(req.body)
+    //     return result.then(val => {
        
-            if (val) {
-                return new SuccessModel(
-                   {data:val}
-                )
-            } else {
-                return new ErrorModel('新增用户信息失败')
-            }
-            return new SuccessModel(val)
-        })
-    }
+    //         if (val) {
+    //             return new SuccessModel(
+    //                {data:val}
+    //             )
+    //         } else {
+    //             return new ErrorModel('新增用户信息失败')
+    //         }
+    //         return new SuccessModel(val)
+    //     })
+    // }
 
-    if (method === 'POST' && req.path === '/electron/eat/savePic') {
-
+    if (method === 'POST' && req.path === '/api/savePic') {
         const result = savePic(req.body)
         return result.then(val => {
        
@@ -53,7 +49,7 @@ const handleeaterRouter = (req, res) => {
     }
 
 
-    if (method === 'POST' && req.path === '/electron/eat/update') {
+    if (method === 'POST' && req.path === '/api/update') {
         const result = updateCount(req.body)
         return result.then(val => {
             if (val) {

@@ -2,6 +2,9 @@ const { exec } = require('../db/mysql')
 const uuid = require('uuid');
 let  random  = require('../auto/randomString')
 const fs = require('fs');
+
+
+
 const getList = () => {
      // sql = `SELECT count FROM z_eater_person where id=1;`
     let sql = `SELECT * FROM users where id=1;`
@@ -24,7 +27,7 @@ const updateCount = (eaterData) => {
 }
 
 const addConsumer = (data) => {
-    console.log(data)
+
     // id 就是要更新博客的 id
     // eaterData 是一个博客对象，包含 title content 属性
     // const countData = eaterData.count;
@@ -86,7 +89,7 @@ const savePic = (data) => {
         });
     }
     let  signPic = data.csSignPic;
-    console.log(signPic)
+
     let signPicRandomName;
     if(signPic){
         let signPicBase64Data = signPic.replace(/^data:image\/\w+;base64,/, "")

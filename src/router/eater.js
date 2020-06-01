@@ -1,10 +1,18 @@
 const {
+    login,
     getList,
     updateCount,
     addConsumer,
     savePic,
 } = require('../controller/eater')
 const { SuccessModel, ErrorModel } = require('../model/resModel')
+
+//统一登录验证函数
+const loginCheck = (req) =>{
+    if(!req.session.username){
+        return Promise.resolve(new ErrorModel('尚未登陆'))
+    }
+}
 
 const handleeaterRouter = (req, res) => {
     
@@ -17,23 +25,17 @@ const handleeaterRouter = (req, res) => {
             return new SuccessModel(listData)
         })
     }
-    //  // 获取吃饭数量列表
-    //  if (method === 'POST' && req.path === '/electron/eat/add') {
-    //     const result = addConsumer(req.body)
-    //     return result.then(val => {
-       
-    //         if (val) {
-    //             return new SuccessModel(
-    //                {data:val}
-    //             )
-    //         } else {
-    //             return new ErrorModel('新增用户信息失败')
-    //         }
-    //         return new SuccessModel(val)
-    //     })
-    // }
+
+
+
 
     if (method === 'POST' && req.path === '/api/savePic') {
+        const loginCheckResult = loginCheck(req)
+        if(loginCheckResult){
+            //这里应该跳转登录页
+            return loginCheck
+        }
+
         const result = savePic(req.body)
         return result.then(val => {
        

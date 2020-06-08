@@ -7,7 +7,7 @@ const fs = require('fs');
 
 const getList = () => {
      // sql = `SELECT count FROM z_eater_person where id=1;`
-    let sql = `SELECT * FROM users where id=1;`
+    let sql = `SELECT * FROM users;`
     return exec(sql)
 }
 

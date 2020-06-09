@@ -20,7 +20,8 @@ const handleeaterRouter = (req, res) => {
 
     // 获取吃饭数量列表
     if (method === 'GET' && req.path === '/api/list') {
-        const result = getList()
+        const result = getList(req.query)
+        console.log(req.query)
         return result.then(listData => {
             return new SuccessModel(listData)
         })
@@ -30,11 +31,11 @@ const handleeaterRouter = (req, res) => {
 
 
     if (method === 'POST' && req.path === '/api/savePic') {
-        const loginCheckResult = loginCheck(req)
-        if(loginCheckResult){
-            //这里应该跳转登录页
-            return loginCheck
-        }
+        // const loginCheckResult = loginCheck(req)
+        // if(loginCheckResult){
+        //     //这里应该跳转登录页
+        //     return loginCheck
+        // }
 
         const result = savePic(req.body)
         return result.then(val => {

@@ -1,7 +1,7 @@
 const querystring = require('querystring')
 const handleEaterRouter = require('./src/router/eater')
 const handleUserRouter = require('./src/router/user')
-const cleanC = require('./src/auto/cleanCount')
+// const cleanC = require('./src/auto/cleanCount')
 const getCookieExpires = () =>{
     const d = new Date()
      d.setTime(d.getTime() + (24*60*60*1000))
@@ -84,12 +84,11 @@ const serverHandle = (req, res) => {
         req.body = postData 
         // 处理 eater 路由
         const eaterResult = handleEaterRouter(req, res)
-
         if (eaterResult) {
             eaterResult.then(eaterData => {
-                if(needSetCookie){
-                    res.setHeader('Set-Cookie',`userid=${userId};path=/;httpOnly;expires=${getCookieExpires()}`)
-                }
+                // if(needSetCookie){
+                //     res.setHeader('Set-Cookie',`userid=${userId};path=/;httpOnly;expires=${getCookieExpires()}`)
+                // }
                 res.end(
                     JSON.stringify(eaterData)
                 )

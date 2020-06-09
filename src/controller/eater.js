@@ -2,12 +2,29 @@ const { exec } = require('../db/mysql')
 const uuid = require('uuid');
 let  random  = require('../auto/randomString')
 const fs = require('fs');
+let  timeCon  = require('../conf/common')
 
 
+const getList = (data) => {
+  
+    const bgTime = data.bgTime?data.bgTime+"":null
+    const edTime = data.edTime?data.edTime+"":null
+    const today = timeCon.dateFormat(new Date())
+    
+    //上个月                                                                        //月数
+    const lastMon = timeCon.dateFormat(new Date((new Date().getTime() - 86400000*30*6)))
+    let sql = `SELECT * FROM user.visitors where`
+    if(bgTime){
+        sql+= ` visitorTime >= '${bgTime}'` 
+    }else{
+        sql+= ` visitorTime >= '${lastMon}'` 
+    }
+    if(edTime){
+        sql+= ` and visitorTime < '${edTime}'` 
+    }else{
+        sql+= ` and visitorTime < '${today}'` 
+    }
 
-const getList = () => {
-     // sql = `SELECT count FROM z_eater_person where id=1;`
-    let sql = `SELECT * FROM users;`
     return exec(sql)
 }
 
@@ -35,7 +52,7 @@ const addConsumer = (data) => {
     const name = data.name;
     const email = data.email;
     const address = data.address;
-
+ 
     const sql = `insert into consumerinfo(id,email,name,address)values ('${uid}','${email}','${name}','${address}')`;
     // const sql = `update z_eater_person set count='${countData}' where id=1`
     return exec(sql).then(data => {
@@ -57,10 +74,12 @@ const savePic = (data) => {
     const name = data.csName;
     const job = data.csJob;
     const address = data.csAddress;
-    
+    const visitorTime = timeCon.dateFormat(new Date());
     let  pic1 = data.csPic1;
     let pic1RandomName
-
+    const code ="";
+    const visitorNum = "";
+    const homeName = "";
     if(pic1){
         let pic1Base64Data = pic1.replace(/^data:image\/\w+;base64,/, "")
         let pic1dataBuffer = new Buffer.from(pic1Base64Data, 'base64');
@@ -105,7 +124,8 @@ const savePic = (data) => {
     }
   
     
-    const sql = `insert into users(id,name,job,address,pic1RandomName,pic2RandomName,signPicRandomName)values ('${uid}','${name}','${job}','${address}','${pic1RandomName}','${pic2RandomName}','${signPicRandomName}')`;
+    const sql = `insert into visitors(id,code,name,job,address,visitorNum,homeName,pic1RandomName,pic2RandomName,signPicRandomName,visitorTime)values ('${uid}','${code}','${name}','${job}','${address}','${visitorNum}','${homeName}','${pic1RandomName}','${pic2RandomName}','${signPicRandomName}','${visitorTime}')`;
+    console.log(sql)
     // const sql = `update z_eater_person set count='${countData}' where id=1`
     return exec(sql).then(data => {
 

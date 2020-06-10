@@ -10,10 +10,13 @@ const getList = (data) => {
     const bgTime = data.bgTime?data.bgTime+"":null
     const edTime = data.edTime?data.edTime+"":null
     const today = timeCon.dateFormat(new Date())
-    
+    const constructionId = data.constructionId?data.constructionId:null
     //上个月                                                                        //月数
-    const lastMon = timeCon.dateFormat(new Date((new Date().getTime() - 86400000*30*6)))
+    const lastMon = timeCon.dateFormat(new Date((new Date().getTime() - 86400000*30*200)))
     let sql = `SELECT * FROM user.visitors where`
+    if(constructionId){
+        sql+= ` constructionId = '${constructionId}' and`
+    }
     if(bgTime){
         sql+= ` visitorTime >= '${bgTime}'` 
     }else{
@@ -24,7 +27,7 @@ const getList = (data) => {
     }else{
         sql+= ` and visitorTime < '${today}'` 
     }
-
+    console.log(sql)
     return exec(sql)
 }
 
@@ -79,7 +82,7 @@ const savePic = (data) => {
     let pic1RandomName
     const code ="";
     const visitorNum = "";
-    const homeName = "";
+    const constructionId = "";
     if(pic1){
         let pic1Base64Data = pic1.replace(/^data:image\/\w+;base64,/, "")
         let pic1dataBuffer = new Buffer.from(pic1Base64Data, 'base64');
@@ -124,7 +127,7 @@ const savePic = (data) => {
     }
   
     
-    const sql = `insert into visitors(id,code,name,job,address,visitorNum,homeName,pic1RandomName,pic2RandomName,signPicRandomName,visitorTime)values ('${uid}','${code}','${name}','${job}','${address}','${visitorNum}','${homeName}','${pic1RandomName}','${pic2RandomName}','${signPicRandomName}','${visitorTime}')`;
+    const sql = `insert into visitors(id,code,name,job,address,visitorNum,constructionId,pic1RandomName,pic2RandomName,signPicRandomName,visitorTime)values ('${uid}','${code}','${name}','${job}','${address}','${visitorNum}','${constructionId}','${pic1RandomName}','${pic2RandomName}','${signPicRandomName}','${visitorTime}')`;
     console.log(sql)
     // const sql = `update z_eater_person set count='${countData}' where id=1`
     return exec(sql).then(data => {

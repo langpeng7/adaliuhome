@@ -18,16 +18,15 @@ const getList = (data) => {
         sql+= ` constructionId = '${constructionId}' and`
     }
     if(bgTime){
-        sql+= ` visitorTime >= '${bgTime}'` 
+        sql+= ` visitorTime > '${bgTime}'` 
     }else{
-        sql+= ` visitorTime >= '${lastMon}'` 
+        sql+= ` visitorTime > '${lastMon}'` 
     }
     if(edTime){
-        sql+= ` and visitorTime < '${edTime}'` 
+        sql+= ` and visitorTime <= '${edTime}'` 
     }else{
-        sql+= ` and visitorTime < '${today}'` 
+        sql+= ` and visitorTime <= '${today}'` 
     }
-    console.log(sql)
     return exec(sql)
 }
 
@@ -46,25 +45,11 @@ const updateCount = (eaterData) => {
     })
 }
 
-const addConsumer = (data) => {
+const getVisitorDetail = (data) => {
 
-    // id 就是要更新博客的 id
-    // eaterData 是一个博客对象，包含 title content 属性
-    // const countData = eaterData.count;
-    const uid = uuid.v1().toString();
-    const name = data.name;
-    const email = data.email;
-    const address = data.address;
- 
-    const sql = `insert into consumerinfo(id,email,name,address)values ('${uid}','${email}','${name}','${address}')`;
-    // const sql = `update z_eater_person set count='${countData}' where id=1`
-    return exec(sql).then(data => {
-
-        if (data.affectedRows > 0) {
-            return exec(`SELECT * FROM consumerinfo;`)
-        }
-        return false
-    })
+    const visitorId = data.visitorId
+    let sql = `SELECT * FROM user.visitors where id='${visitorId}'`
+    return exec(sql)
 }
 
 
@@ -141,6 +126,6 @@ const savePic = (data) => {
 module.exports = {
     getList,
     updateCount,
-    addConsumer,
+    getVisitorDetail,
     savePic
 }

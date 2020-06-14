@@ -2,7 +2,7 @@ const {
     login,
     getList,
     updateCount,
-    addConsumer,
+    getVisitorDetail,
     savePic,
 } = require('../controller/eater')
 const { SuccessModel, ErrorModel } = require('../model/resModel')
@@ -21,13 +21,21 @@ const handleeaterRouter = (req, res) => {
     // 获取吃饭数量列表
     if (method === 'GET' && req.path === '/api/list') {
         const result = getList(req.query)
-        console.log(req.query)
+       
         return result.then(listData => {
             return new SuccessModel(listData)
         })
     }
 
-
+    // 获取吃饭数量列表
+    if (method === 'GET' && req.path === '/api/getVisitorDetail') {
+        console.log(req.query)
+        const result = getVisitorDetail(req.query)
+        console.log(result)
+        return result.then(val => {
+            return new SuccessModel({data:val})
+        })
+    }
 
 
     if (method === 'POST' && req.path === '/api/savePic') {

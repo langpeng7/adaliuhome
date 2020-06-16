@@ -23,14 +23,21 @@ if (env === 'production') {
 }
 
 if (env === 'dev') {
-    // mysql
-    MYSQL_CONF = {
+	// mysql
+	MYSQL_CONF = {
         host: 'localhost',
 	    user: 'root',
 	    post:'3306',
-	    password: '123456',
-	    database: 'user'
+	    password: '2929001557',
+	    database: 'liubbr'
     }
+    // MYSQL_CONF = {
+    //     host: 'localhost',
+	//     user: 'root',
+	//     post:'3306',
+	//     password: '123456',
+	//     database: 'user'
+    // }
 
     // MYSQL_CONF = {
     //     host: '39.106.206.173',

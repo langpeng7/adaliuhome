@@ -12,7 +12,7 @@ const getList = (data) => {
     const today = timeCon.dateFormat(new Date())
     const constructionId = data.constructionId?data.constructionId:null
     //上个月                                                                        //月数
-    const lastMon = timeCon.dateFormat(new Date((new Date().getTime() - 86400000*30*200)))
+    const lastMon = timeCon.dateFormat(new Date((new Date().getTime() - 86400000*30*6)))
     let sql = `SELECT * FROM user.visitors where`
     if(constructionId){
         sql+= ` constructionId = '${constructionId}' and`

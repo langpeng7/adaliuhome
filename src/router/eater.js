@@ -21,7 +21,7 @@ const handleeaterRouter = (req, res) => {
     // 获取吃饭数量列表
     if (method === 'GET' && req.path === '/api/list') {
         const result = getList(req.query)
-        console.log(req.query)
+   
         return result.then(listData => {
             return new SuccessModel(listData)
         })

@@ -13,7 +13,7 @@ const getList = (data) => {
     const constructionId = data.constructionId?data.constructionId:null
     //上个月                                                                        //月数
     const lastMon = timeCon.dateFormat(new Date((new Date().getTime() - 86400000*30*6)))
-    let sql = `SELECT * FROM user.visitors where`
+    let sql = `SELECT * FROM liubbr.visitors where`
     if(constructionId){
         sql+= ` constructionId = '${constructionId}' and`
     }
@@ -48,7 +48,7 @@ const updateCount = (eaterData) => {
 const getVisitorDetail = (data) => {
 
     const visitorId = data.visitorId
-    let sql = `SELECT * FROM user.visitors where id='${visitorId}'`
+    let sql = `SELECT * FROM liubbr.visitors where id='${visitorId}'`
     return exec(sql)
 }
 
@@ -112,7 +112,7 @@ const savePic = (data) => {
     }
   
     
-    const sql = `insert into visitors(id,code,name,job,address,visitorNum,constructionId,pic1RandomName,pic2RandomName,signPicRandomName,visitorTime)values ('${uid}','${code}','${name}','${job}','${address}','${visitorNum}','${constructionId}','${pic1RandomName}','${pic2RandomName}','${signPicRandomName}','${visitorTime}')`;
+    const sql = `insert into liubbr.visitors(id,code,name,job,address,visitorNum,constructionId,pic1RandomName,pic2RandomName,signPicRandomName,visitorTime)values ('${uid}','${code}','${name}','${job}','${address}','${visitorNum}','${constructionId}','${pic1RandomName}','${pic2RandomName}','${signPicRandomName}','${visitorTime}')`;
     console.log(sql)
     // const sql = `update z_eater_person set count='${countData}' where id=1`
     return exec(sql).then(data => {

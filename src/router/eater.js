@@ -31,7 +31,7 @@ const handleeaterRouter = (req, res) => {
     if (method === 'GET' && req.path === '/api/getVisitorDetail') {
         console.log(req.query)
         const result = getVisitorDetail(req.query)
-        console.log(result)
+    
         return result.then(val => {
             return new SuccessModel({data:val})
         })

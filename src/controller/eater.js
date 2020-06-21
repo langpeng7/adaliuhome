@@ -63,11 +63,13 @@ const savePic = (data) => {
     const job = data.csJob;
     const address = data.csAddress;
     const visitorTime = timeCon.dateFormat(new Date());
+    const code =data.code;
+    const visitorNum = data.visitorNum;
+    const constructionId = data.constructionId;
+
     let  pic1 = data.csPic1;
     let pic1RandomName
-    const code ="";
-    const visitorNum = "";
-    const constructionId = "";
+    let pic1RandomNameIn
     if(pic1){
         let pic1Base64Data = pic1.replace(/^data:image\/\w+;base64,/, "")
         let pic1dataBuffer = new Buffer.from(pic1Base64Data, 'base64');
@@ -79,9 +81,11 @@ const savePic = (data) => {
              
             }
         });
+        pic1RandomNameIn= pic1RandomName.substr(1)
     }
     let  pic2 = data.csPic2;
     let pic2RandomName;
+    let pic2RandomNameIn
     if(pic2){
 
         let pic2Base64Data = pic2.replace(/^data:image\/\w+;base64,/, "")
@@ -94,10 +98,12 @@ const savePic = (data) => {
              
             }
         });
+        pic2RandomNameIn = pic2RandomName.substr(1)
     }
     let  signPic = data.csSignPic;
 
     let signPicRandomName;
+    let signPicRandomNameIn
     if(signPic){
         let signPicBase64Data = signPic.replace(/^data:image\/\w+;base64,/, "")
         let signPicdataBuffer = new Buffer.from(signPicBase64Data, 'base64');
@@ -109,11 +115,11 @@ const savePic = (data) => {
              
             }
         });
+        signPicRandomNameIn = signPicRandomName.substr(1)
     }
   
     
-    const sql = `insert into liubbr.visitors(id,code,name,job,address,visitorNum,constructionId,pic1RandomName,pic2RandomName,signPicRandomName,visitorTime)values ('${uid}','${code}','${name}','${job}','${address}','${visitorNum}','${constructionId}','${pic1RandomName}','${pic2RandomName}','${signPicRandomName}','${visitorTime}')`;
-    console.log(sql)
+    const sql = `insert into liubbr.visitors(id,code,name,job,address,visitorNum,constructionId,pic1RandomName,pic2RandomName,signPicRandomName,visitorTime)values ('${uid}','${code}','${name}','${job}','${address}','${visitorNum}','${constructionId}','${pic1RandomNameIn}','${pic2RandomNameIn}','${signPicRandomNameIn}','${visitorTime}')`;
     // const sql = `update z_eater_person set count='${countData}' where id=1`
     return exec(sql).then(data => {
 

@@ -11,13 +11,10 @@ const handleUserRouter = (req, res) => {
         // const { username, password } = req.query
         const result = login(username, password)
         return result.then(data => {
-            console.log(data)
-            console.log(req.session)
             if (data.username) {
                 // 设置 session
                 req.session= {}
-                // req.session.username = data.username
-
+                req.session.username = data.username
                 // 同步到 redis
                 // set(req.sessionId, req.session)
      

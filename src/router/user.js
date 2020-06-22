@@ -10,11 +10,13 @@ const handleUserRouter = (req, res) => {
         const { username, password } = req.body
         // const { username, password } = req.query
         const result = login(username, password)
+        console.log(result)
         return result.then(data => {
             if (data.username) {
                 // 设置 session
                 req.session= {}
                 req.session.username = data.username
+                res.setHeader('Set-Cookie',`isLogin=1;path=/`)
                 // 同步到 redis
                 // set(req.sessionId, req.session)
      

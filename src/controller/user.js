@@ -1,4 +1,4 @@
-const { exec, escape } = require('../db/mysql')
+const { exec, escape,unloginExec } = require('../db/mysql')
 // const { genPassword } = require('../utils/cryp')
 
 const login = (username, password) => {
@@ -10,12 +10,18 @@ const login = (username, password) => {
     const sql = `
         select username, realname from liubbr.users where username='${username}' and password='${password}'
     `
-     console.log('sql is', sql)
+
     return exec(sql).then(rows => {
         return rows[0] || {}
     })
 }
+const loginOut =(e) =>{
+    return unloginExec(e).then(rows=>{
+        return rows[0]||{}
+    })
+}
 
 module.exports = {
-    login
+    login,
+    loginOut
 }

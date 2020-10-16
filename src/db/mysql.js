@@ -17,17 +17,18 @@ function exec(sql) {
             }
             resolve(result)
         })        
-        // con.query(sql, (err, result) => {
-        //     if (err) {
-        //         reject(err)
-        //         return
-        //     }
-        //     resolve(result)
-        // })
+   
+    })
+    return promise
+}
+function unloginExec(e){
+    const promise = new Promise((resolve, reject) => {
+        resolve([{type:0}])
     })
     return promise
 }
 
 module.exports = {
     exec,
+    unloginExec
 }

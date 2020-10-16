@@ -1,4 +1,5 @@
 const { login } = require('../controller/user')
+const { loginOut } = require('../controller/user')
 const { SuccessModel, ErrorModel } = require('../model/resModel')
 // const { set } = require('../db/redis')
 
@@ -10,7 +11,7 @@ const handleUserRouter = (req, res) => {
         const { username, password } = req.body
         // const { username, password } = req.query
         const result = login(username, password)
-        console.log(result)
+     
         return result.then(data => {
             if (data.username) {
                 // 设置 session
@@ -26,7 +27,24 @@ const handleUserRouter = (req, res) => {
             return new ErrorModel('登录失败')
         })
     }
+    if (method === 'GET' && req.path === '/api/user/loginOut') {
+   
+        // const { username, password } = req.query
+        const result = loginOut()
 
+            return result.then(val => {
+       
+                if(val.type=="0"){
+                    req.session= {}
+                    res.setHeader('Set-Cookie',`isLogin=0;path=/`)
+                    return new SuccessModel(val)
+                }
+         
+            })
+          
+     
+  
+    }
     // // 登录验证的测试
     if (method === 'GET' && req.path === '/api/user/login-test') {
         console.log(req.session)

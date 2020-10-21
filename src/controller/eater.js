@@ -54,7 +54,6 @@ const getVisitorDetail = (data) => {
 
 
 const savePic = (data) => {
-   
     // id 就是要更新博客的 id
     // eaterData 是一个博客对象，包含 title content 属性
     // const countData = y.count;
@@ -121,10 +120,18 @@ const savePic = (data) => {
     
     const sql = `insert into liubbr.visitors(id,code,name,job,address,visitorNum,constructionId,pic1RandomName,pic2RandomName,signPicRandomName,visitorTime)values ('${uid}','${code}','${name}','${job}','${address}','${visitorNum}','${constructionId}','${pic1RandomNameIn}','${pic2RandomNameIn}','${signPicRandomNameIn}','${visitorTime}')`;
     // const sql = `update z_eater_person set count='${countData}' where id=1`
-    return exec(sql).then(data => {
 
+
+    return exec(sql).then(data => {
+        console.log(data)
         if (data.affectedRows > 0) {
-            return exec(`SELECT * FROM users;`)
+            return exec(`SELECT * FROM users;`).then(data=>{
+                console.log(123123123)
+                return exec(`SELECT * FROM users;`).then(data=>{
+                    console.log(456456456)
+                    return exec(`SELECT * FROM users;`)
+                })
+            })
         }
         return false
     })

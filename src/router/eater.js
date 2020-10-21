@@ -47,7 +47,8 @@ const handleeaterRouter = (req, res) => {
 
         const result = savePic(req.body)
         return result.then(val => {
-       
+            console.log(11111111111111)
+            console.log(val)
             if (val) {
                 return new SuccessModel(
                    {data:val}

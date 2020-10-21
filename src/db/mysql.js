@@ -9,14 +9,22 @@ const pool  = mysql.createPool(MYSQL_CONF)
 // con.connect()
 // 统一执行 sql 的函数
 function exec(sql) {
+
+
     const promise = new Promise((resolve, reject) => {
-        pool.query(sql, (err, result) => {
-            if (err) {
-                reject(err)
-                return
-            }
-            resolve(result)
-        })        
+        if(sql.length<=1){
+            pool.query(sql[0], (err, result) => {
+                if (err) {
+                    reject(err)
+                    return
+                }
+                console.log(result)
+                resolve(result)
+            })    
+        }else{
+     
+        }
+        
    
     })
     return promise

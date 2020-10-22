@@ -18,15 +18,16 @@ const getList = (data) => {
         sql+= ` constructionId = '${constructionId}' and`
     }
     if(bgTime){
-        sql+= ` visitorTime > '${bgTime}'` 
+        sql+= ` visitorTime >= '${bgTime}'` 
     }else{
-        sql+= ` visitorTime > '${lastMon}'` 
+        sql+= ` visitorTime >= '${lastMon}'` 
     }
     if(edTime){
         sql+= ` and visitorTime <= '${edTime}'` 
     }else{
         sql+= ` and visitorTime <= '${today}'` 
     }
+    sql+=`Order By visitorTime Desc`
     return exec(sql)
 }
 
@@ -46,7 +47,6 @@ const updateCount = (eaterData) => {
 }
 
 const getVisitorDetail = (data) => {
-
     const visitorId = data.visitorId
     let sql = `SELECT * FROM liubbr.visitors where id='${visitorId}'`
     return exec(sql)
@@ -56,85 +56,91 @@ const getVisitorDetail = (data) => {
 const savePic = (data) => {
     // id 就是要更新博客的 id
     // eaterData 是一个博客对象，包含 title content 属性
-    // const countData = y.count;
-    const uid = uuid.v1().toString();
-    const name = data.csName;
-    const job = data.csJob;
-    const address = data.csAddress;
-    const visitorTime = timeCon.dateFormat(new Date());
-    const code =data.code;
-    const visitorNum = data.visitorNum;
-    const constructionId = data.constructionId;
-
-    let  pic1 = data.csPic1;
-    let pic1RandomName
-    let pic1RandomNameIn
-    if(pic1){
-        let pic1Base64Data = pic1.replace(/^data:image\/\w+;base64,/, "")
-        let pic1dataBuffer = new Buffer.from(pic1Base64Data, 'base64');
-        pic1RandomName = './public/headImage/'+ random.randomString(8)+new Date().getTime() +".png"
-        fs.writeFile(pic1RandomName, pic1dataBuffer, function(err) {
-            if(err){
-                
-            }else{
-             
-            }
-        });
-        pic1RandomNameIn= pic1RandomName.substr(1)
-    }
-    let  pic2 = data.csPic2;
-    let pic2RandomName;
-    let pic2RandomNameIn
-    if(pic2){
-
-        let pic2Base64Data = pic2.replace(/^data:image\/\w+;base64,/, "")
-        let pic2dataBuffer = new Buffer.from(pic2Base64Data, 'base64');
-         pic2RandomName = './public/headImage/'+ random.randomString(8)+new Date().getTime() +".png"
-        fs.writeFile(pic2RandomName, pic2dataBuffer, function(err) {
-            if(err){
-                
-            }else{
-             
-            }
-        });
-        pic2RandomNameIn = pic2RandomName.substr(1)
-    }
-    let  signPic = data.csSignPic;
-
-    let signPicRandomName;
-    let signPicRandomNameIn
-    if(signPic){
-        let signPicBase64Data = signPic.replace(/^data:image\/\w+;base64,/, "")
-        let signPicdataBuffer = new Buffer.from(signPicBase64Data, 'base64');
-        signPicRandomName= './public/headImage/'+ random.randomString(8)+new Date().getTime() +".png"
-        fs.writeFile(signPicRandomName, signPicdataBuffer, function(err) {
-            if(err){
-                
-            }else{
-             
-            }
-        });
-        signPicRandomNameIn = signPicRandomName.substr(1)
-    }
-  
+    // const countData = y.count; 
+    let sqls = [];
+    for(let i=0;i<data.length;i++){
+        const uid = uuid.v1().toString();
+        const name = data[i].csName;
+        const job = data[i].csJob;
+        const address = data[i].csAddress;
+        const visitorTime = timeCon.dateFormat(new Date());
+        const code =data[i].code;
+        const visitorNum = data[i].visitorNum;
+        const constructionId = data[i].constructionId;
+        let pic1 =  data[i].csPic1;
+        let pic1RandomName
+        let pic1RandomNameIn
+        if(pic1){
+            let pic1Base64Data = pic1.replace(/^data:image\/\w+;base64,/, "")
+            let pic1dataBuffer = new Buffer.from(pic1Base64Data, 'base64');
+            pic1RandomName = './public/headImage/'+ random.randomString(8)+new Date().getTime() +".png"
+            fs.writeFile(pic1RandomName, pic1dataBuffer, function(err) {
+                if(err){
+                    
+                }else{
+                 
+                }
+            });
+            pic1RandomNameIn= pic1RandomName.substr(1)
+        }
+        let  pic2 =  data[i].csPic2;
+        let pic2RandomName;
+        let pic2RandomNameIn
+        if(pic2){
     
-    const sql = `insert into liubbr.visitors(id,code,name,job,address,visitorNum,constructionId,pic1RandomName,pic2RandomName,signPicRandomName,visitorTime)values ('${uid}','${code}','${name}','${job}','${address}','${visitorNum}','${constructionId}','${pic1RandomNameIn}','${pic2RandomNameIn}','${signPicRandomNameIn}','${visitorTime}')`;
+            let pic2Base64Data = pic2.replace(/^data:image\/\w+;base64,/, "")
+            let pic2dataBuffer = new Buffer.from(pic2Base64Data, 'base64');
+             pic2RandomName = './public/headImage/'+ random.randomString(8)+new Date().getTime() +".png"
+            fs.writeFile(pic2RandomName, pic2dataBuffer, function(err) {
+                if(err){
+                    
+                }else{
+                 
+                }
+            });
+            pic2RandomNameIn = pic2RandomName.substr(1)
+        }
+        let  signPic =  data[i].csSignPic;
+    
+        let signPicRandomName;
+        let signPicRandomNameIn
+        if(signPic){
+            let signPicBase64Data = signPic.replace(/^data:image\/\w+;base64,/, "")
+            let signPicdataBuffer = new Buffer.from(signPicBase64Data, 'base64');
+            signPicRandomName= './public/headImage/'+ random.randomString(8)+new Date().getTime() +".png"
+            fs.writeFile(signPicRandomName, signPicdataBuffer, function(err) {
+                if(err){
+                    
+                }else{
+                 
+                }
+            });
+            signPicRandomNameIn = signPicRandomName.substr(1)
+        }
+        sqls.push( `insert into liubbr.visitors(id,code,name,job,address,visitorNum,constructionId,pic1RandomName,pic2RandomName,signPicRandomName,visitorTime)values ('${uid}','${code}','${name}','${job}','${address}','${visitorNum}','${constructionId}','${pic1RandomNameIn}','${pic2RandomNameIn}','${signPicRandomNameIn}','${visitorTime}')`)
+    }
+
     // const sql = `update z_eater_person set count='${countData}' where id=1`
 
+    //const sqls = [`SELECT * FROM users;`,`SELECT * FROM users;`,`SELECT * FROM users;`]
+    let sqlLen = 0
 
-    return exec(sql).then(data => {
-        console.log(data)
-        if (data.affectedRows > 0) {
-            return exec(`SELECT * FROM users;`).then(data=>{
-                console.log(123123123)
-                return exec(`SELECT * FROM users;`).then(data=>{
-                    console.log(456456456)
-                    return exec(`SELECT * FROM users;`)
-                })
-            })
-        }
-        return false
-    })
+    function sqlsCircle(e){
+		return	exec(e[sqlLen]).then(data=>{
+			if(data.affectedRows>0){
+				sqlLen ++
+				if(sqlLen<sqls.length){
+					sqlsCircle(sqls)
+				}else{
+					return exec(`SELECT * FROM users;`)
+				}
+			}else{
+                return  exec(`SELECT * FROM users;`)
+            }
+		})
+	}
+    return sqlsCircle(sqls)
+
 }
 module.exports = {
     getList,

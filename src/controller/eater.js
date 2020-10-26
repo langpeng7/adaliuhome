@@ -45,7 +45,11 @@ const updateCount = (eaterData) => {
         return false
     })
 }
-
+const deleteVisitor = (data) =>{
+    const visitorId = data.visitorId
+    let sql = `DELETE  FROM liubbr.visitors where id='${visitorId}'`
+    return exec(sql)
+}
 const getVisitorDetail = (data) => {
     const visitorId = data.visitorId
     let sql = `SELECT * FROM liubbr.visitors where id='${visitorId}'`
@@ -146,5 +150,6 @@ module.exports = {
     getList,
     updateCount,
     getVisitorDetail,
-    savePic
+    savePic,
+    deleteVisitor
 }

@@ -4,6 +4,7 @@ const {
     updateCount,
     getVisitorDetail,
     savePic,
+    deleteVisitor
 } = require('../controller/eater')
 const { SuccessModel, ErrorModel } = require('../model/resModel')
 
@@ -47,8 +48,6 @@ const handleeaterRouter = (req, res) => {
 
         const result = savePic(req.body)
         return result.then(val => {
-            console.log(11111111111111)
-            console.log(val)
             if (val) {
                 return new SuccessModel(
                    {data:val}
@@ -60,6 +59,28 @@ const handleeaterRouter = (req, res) => {
         })
     }
 
+    if (method === 'POST' && req.path === '/api/delete') {
+        // const loginCheckResult = loginCheck(req)
+        // if(loginCheckResult){
+        //     //这里应该跳转登录页
+        //     return loginCheck
+        // }
+
+        const result = deleteVisitor(req.body)
+        console.log(result)
+        return result.then(val => {
+            console.log("val")
+            console.log(val)
+            if (val) {
+                return new SuccessModel(
+                   {data:val}
+                )
+            } else {
+                return new ErrorModel('删除失败')
+            }
+            return new SuccessModel(val)
+        })
+    }
 
     if (method === 'POST' && req.path === '/api/update') {
         const result = updateCount(req.body)

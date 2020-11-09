@@ -1,6 +1,7 @@
 const querystring = require('querystring')
 const handleEaterRouter = require('./src/router/eater')
 const handleUserRouter = require('./src/router/user')
+const handelHouseRouter = require('./src/router/house')
 // const cleanC = require('./src/auto/cleanCount')
 const getCookieExpires = () =>{
     const d = new Date()
@@ -105,6 +106,19 @@ const serverHandle = (req, res) => {
                 }
                 res.end(
                     JSON.stringify(userData)
+                )
+            })
+            return
+        }
+
+        const houseResult = handelHouseRouter(req,res)
+        if(houseResult){
+            houseResult.then(houseData => {
+                // if(needSetCookie){
+                //     res.setHeader('Set-Cookie',`userid=${userId};path=/;httpOnly;expires=${getCookieExpires()}`)
+                // }
+                res.end(
+                    JSON.stringify(houseData)
                 )
             })
             return

@@ -1,7 +1,7 @@
 const {
     login,
     getList,
-    updateCount,
+    updateVisitor,
     getVisitorDetail,
     savePic,
     deleteVisitor
@@ -83,14 +83,15 @@ const handleeaterRouter = (req, res) => {
     }
 
     if (method === 'POST' && req.path === '/api/update') {
-        const result = updateCount(req.body)
+        const result = updateVisitor(req.body)
         return result.then(val => {
+            console.log(val)
             if (val) {
                 return new SuccessModel(
-                   {count:val[0].count}
+                   {count:val}
                 )
             } else {
-                return new ErrorModel('更新博客失败')
+                return new ErrorModel('更新失败')
             }
         })
     }

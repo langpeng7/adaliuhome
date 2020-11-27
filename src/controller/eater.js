@@ -1,5 +1,5 @@
 const { exec } = require('../db/mysql')
-const uuid = require('uuid');
+
 let  random  = require('../auto/randomString')
 const fs = require('fs');
 let  timeCon  = require('../conf/common')
@@ -45,6 +45,34 @@ const updateCount = (eaterData) => {
         return false
     })
 }
+const updateVisitor = (data) => {
+
+    const visitorId = data.visitorId
+    const code = data.code
+    const name = data.csName
+    const job = data.csJob
+    const address = data.csAddress
+    const visitorNum = data.visitorNum
+    const constructionId = data.constructionId
+    const faccommodation = data.faccommodation
+    const destination = data.destination
+    const pic1RandomName = data.csPic1
+    const pic2RandomName = data.csPic2
+    const sql = `update liubbr.visitors set code='${code}', name='${name}',job='${job}',
+    address='${address}', visitorNum='${visitorNum}',constructionId='${constructionId}',
+    faccommodation='${faccommodation}',destination='${destination}',
+    pic1RandomName='${pic1RandomName}',
+    pic2RandomName='${pic2RandomName}'
+    where id='${visitorId}'`
+    return exec(sql).then(updateData => {
+        console.log(updateData)
+        if (updateData.affectedRows > 0) {
+            return exec(`SELECT * FROM liubbr.visitors where id='${visitorId}';`)
+        }
+        return false
+    })
+}
+
 const deleteVisitor = (data) =>{
     const visitorId = data.visitorId
     let sql = `DELETE  FROM liubbr.visitors where id='${visitorId}'`
@@ -63,6 +91,7 @@ const savePic = (data) => {
     // const countData = y.count; 
     let sqls = [];
     for(let i=0;i<data.length;i++){
+        const uuid = require('uuid');
         const uid = uuid.v1().toString();
         const name = data[i].csName;
         const job = data[i].csJob;
@@ -71,6 +100,8 @@ const savePic = (data) => {
         const code =data[i].code;
         const visitorNum = data[i].visitorNum;
         const constructionId = data[i].constructionId;
+        const faccommodation = data[i].faccommodation;
+        const destination = data[i].destination;
         let pic1 =  data[i].csPic1;
         let pic1RandomName
         let pic1RandomNameIn
@@ -91,7 +122,6 @@ const savePic = (data) => {
         let pic2RandomName;
         let pic2RandomNameIn
         if(pic2){
-    
             let pic2Base64Data = pic2.replace(/^data:image\/\w+;base64,/, "")
             let pic2dataBuffer = new Buffer.from(pic2Base64Data, 'base64');
              pic2RandomName = './public/headImage/'+ random.randomString(8)+new Date().getTime() +".png"
@@ -121,7 +151,7 @@ const savePic = (data) => {
             });
             signPicRandomNameIn = signPicRandomName.substr(1)
         }
-        sqls.push( `insert into liubbr.visitors(id,code,name,job,address,visitorNum,constructionId,pic1RandomName,pic2RandomName,signPicRandomName,visitorTime)values ('${uid}','${code}','${name}','${job}','${address}','${visitorNum}','${constructionId}','${pic1RandomNameIn}','${pic2RandomNameIn}','${signPicRandomNameIn}','${visitorTime}')`)
+        sqls.push( `insert into liubbr.visitors(id,code,name,job,address,visitorNum,constructionId,pic1RandomName,pic2RandomName,signPicRandomName,visitorTime,faccommodation,destination)values ('${uid}','${code}','${name}','${job}','${address}','${visitorNum}','${constructionId}','${pic1RandomNameIn}','${pic2RandomNameIn}','${signPicRandomNameIn}','${visitorTime}','${faccommodation}','${destination}')`)
     }
 
     // const sql = `update z_eater_person set count='${countData}' where id=1`
@@ -146,10 +176,13 @@ const savePic = (data) => {
     return sqlsCircle(sqls)
 
 }
+
+
 module.exports = {
     getList,
-    updateCount,
+    updateVisitor,
     getVisitorDetail,
     savePic,
-    deleteVisitor
+    deleteVisitor,
+    
 }

@@ -56,8 +56,39 @@ const updateVisitor = (data) => {
     const constructionId = data.constructionId
     const faccommodation = data.faccommodation
     const destination = data.destination
-    const pic1RandomName = data.csPic1
-    const pic2RandomName = data.csPic2
+    const pic1 = data.csPic1;
+    const pic2 = data.csPic2;
+    let pic1RandomName;
+    let pic2RandomName;
+    if(pic1){
+        let pic1Base64Data = pic1.replace(/^data:image\/\w+;base64,/, "")
+        let pic1dataBuffer = new Buffer.from(pic1Base64Data, 'base64');
+        pic1RandomName = './public/headImage/'+ random.randomString(8)+new Date().getTime() +".png"
+        fs.writeFile(pic1RandomName, pic1dataBuffer, function(err) {
+            if(err){
+                
+            }else{
+             
+            }
+        });
+        pic1RandomName= pic1RandomName.substr(1)
+    }
+   
+    if(pic2){
+        let pic2Base64Data = pic2.replace(/^data:image\/\w+;base64,/, "")
+        let pic2dataBuffer = new Buffer.from(pic2Base64Data, 'base64');
+        pic2RandomName = './public/headImage/'+ random.randomString(8)+new Date().getTime() +".png"
+        fs.writeFile(pic2RandomName, pic2dataBuffer, function(err) {
+            if(err){
+                
+            }else{
+             
+            }
+        });
+        pic2RandomName= pic2RandomName.substr(1)
+    }
+
+
     const sql = `update liubbr.visitors set code='${code}', name='${name}',job='${job}',
     address='${address}', visitorNum='${visitorNum}',constructionId='${constructionId}',
     faccommodation='${faccommodation}',destination='${destination}',

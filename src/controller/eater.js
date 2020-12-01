@@ -129,6 +129,8 @@ const savePic = (data) => {
         const job = data[i].csJob;
         const address = data[i].csAddress;
         const visitorTime = timeCon.dateFormat(new Date());
+        const moveInDate = timeCon.dateFormat(new Date(parseInt(data[i].moveInDate)));
+        const leaveDate = timeCon.dateFormat(new Date(parseInt(data[i].leaveDate)));
         const code =data[i].code;
         const visitorNum = data[i].visitorNum;
         const constructionId = data[i].constructionId;
@@ -184,7 +186,7 @@ const savePic = (data) => {
             });
             signPicRandomNameIn = env=='production'?'www.shikanko.cn'+signPicRandomName.substr(1):signPicRandomName.substr(1)
         }
-        sqls.push( `insert into liubbr.visitors(id,code,name,job,address,visitorNum,constructionId,pic1RandomName,pic2RandomName,signPicRandomName,visitorTime,faccommodation,destination)values ('${uid}','${code}','${name}','${job}','${address}','${visitorNum}','${constructionId}','${pic1RandomNameIn}','${pic2RandomNameIn}','${signPicRandomNameIn}','${visitorTime}','${faccommodation}','${destination}')`)
+        sqls.push( `insert into liubbr.visitors(id,code,name,job,address,visitorNum,constructionId,pic1RandomName,pic2RandomName,signPicRandomName,visitorTime,faccommodation,destination,moveInDate,leaveDate)values ('${uid}','${code}','${name}','${job}','${address}','${visitorNum}','${constructionId}','${pic1RandomNameIn}','${pic2RandomNameIn}','${signPicRandomNameIn}','${visitorTime}','${faccommodation}','${destination}','${moveInDate}','${leaveDate}')`)
     }
 
     // const sql = `update z_eater_person set count='${countData}' where id=1`

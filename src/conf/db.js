@@ -17,7 +17,8 @@ if (env === 'production') {
         host: 'localhost',
 	    user: 'root',
 	    post:'3306',
-	    password: '2929001557',
+		// password: '2929001557',
+		password: '123456',
 	    database: 'liubbr'
     }
 }

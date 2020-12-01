@@ -3,10 +3,10 @@ const { exec } = require('../db/mysql')
 let  random  = require('../auto/randomString')
 const fs = require('fs');
 let  timeCon  = require('../conf/common')
-
+const env = process.env.NODE_ENV
 
 const getList = (data) => {
-  
+
     const bgTime = data.bgTime?data.bgTime+"":null
     const edTime = data.edTime?data.edTime+"":null
     const today = timeCon.dateFormat(new Date())
@@ -71,7 +71,8 @@ const updateVisitor = (data) => {
              
             }
         });
-        pic1RandomName= pic1RandomName.substr(1)
+        
+        pic1RandomName = env=='production'?'www.shikanko.cn'+pic1RandomName.substr(1):pic1RandomName.substr(1)
     }
    
     if(pic2){
@@ -85,7 +86,7 @@ const updateVisitor = (data) => {
              
             }
         });
-        pic2RandomName= pic2RandomName.substr(1)
+        pic2RandomName=  env=='production'?'www.shikanko.cn'+pic2RandomName.substr(1):pic2RandomName.substr(1)
     }
 
 
@@ -147,7 +148,7 @@ const savePic = (data) => {
                  
                 }
             });
-            pic1RandomNameIn= pic1RandomName.substr(1)
+            pic1RandomNameIn= env=='production'?'www.shikanko.cn'+pic1RandomName.substr(1):pic1RandomName.substr(1)
         }
         let  pic2 =  data[i].csPic2;
         let pic2RandomName;
@@ -163,7 +164,8 @@ const savePic = (data) => {
                  
                 }
             });
-            pic2RandomNameIn = pic2RandomName.substr(1)
+            
+            pic2RandomNameIn = env=='production'?'www.shikanko.cn'+pic2RandomName.substr(1):pic2RandomName.substr(1)
         }
         let  signPic =  data[i].csSignPic;
     
@@ -180,7 +182,7 @@ const savePic = (data) => {
                  
                 }
             });
-            signPicRandomNameIn = signPicRandomName.substr(1)
+            signPicRandomNameIn = env=='production'?'www.shikanko.cn'+signPicRandomName.substr(1):signPicRandomName.substr(1)
         }
         sqls.push( `insert into liubbr.visitors(id,code,name,job,address,visitorNum,constructionId,pic1RandomName,pic2RandomName,signPicRandomName,visitorTime,faccommodation,destination)values ('${uid}','${code}','${name}','${job}','${address}','${visitorNum}','${constructionId}','${pic1RandomNameIn}','${pic2RandomNameIn}','${signPicRandomNameIn}','${visitorTime}','${faccommodation}','${destination}')`)
     }

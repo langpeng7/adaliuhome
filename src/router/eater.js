@@ -4,7 +4,8 @@ const {
     updateVisitor,
     getVisitorDetail,
     savePic,
-    deleteVisitor
+    deleteVisitor,
+    getAllList
 } = require('../controller/eater')
 const { SuccessModel, ErrorModel } = require('../model/resModel')
 
@@ -28,9 +29,15 @@ const handleeaterRouter = (req, res) => {
         })
     }
 
+    if (method === 'GET' && req.path === '/api/alllist') {
+        const result = getAllList(req.query)
+       
+        return result.then(listData => {
+            return new SuccessModel(listData)
+        })
+    }
 
     if (method === 'GET' && req.path === '/api/getVisitorDetail') {
-        console.log(req.query)
         const result = getVisitorDetail(req.query)
     
         return result.then(val => {

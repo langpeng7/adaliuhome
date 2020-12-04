@@ -30,21 +30,31 @@ const getList = (data) => {
     sql+=`Order By visitorTime Desc`
     return exec(sql)
 }
-
-
-
-const updateCount = (eaterData) => {
-    // id 就是要更新博客的 id
-    // eaterData 是一个博客对象，包含 title content 属性
-    const countData = eaterData.count
-    const sql = `update z_eater_person set count='${countData}' where id=1`
-    return exec(sql).then(updateData => {
-        if (updateData.affectedRows > 0) {
-            return exec(`SELECT count FROM z_eater_person where id=1;`)
-        }
-        return false
-    })
+const getAllList = (data) => {
+    const constructionId = data.constructionId?data.constructionId:null
+    //上个月                                                                        //月数
+    const lastMon = timeCon.dateFormat(new Date((new Date().getTime() - 86400000*30*6)))
+    let sql = `SELECT * FROM liubbr.visitors`
+    if(constructionId){
+        sql+= ` where constructionId = '${constructionId}'`
+    }
+    sql+=` Order By visitorTime Desc`
+    return exec(sql)
 }
+
+
+// const updateCount = (eaterData) => {
+//     // id 就是要更新博客的 id
+//     // eaterData 是一个博客对象，包含 title content 属性
+//     const countData = eaterData.count
+//     const sql = `update z_eater_person set count='${countData}' where id=1`
+//     return exec(sql).then(updateData => {
+//         if (updateData.affectedRows > 0) {
+//             return exec(`SELECT count FROM z_eater_person where id=1;`)
+//         }
+//         return false
+//     })
+// }
 const updateVisitor = (data) => {
 
     const visitorId = data.visitorId
@@ -219,5 +229,6 @@ module.exports = {
     getVisitorDetail,
     savePic,
     deleteVisitor,
+    getAllList
     
 }
